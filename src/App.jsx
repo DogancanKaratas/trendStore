@@ -3,6 +3,7 @@ import Cart from "./components/Cart/Cart";
 import Hero from "./components/Hero/Hero";
 import Header from "./components/Layouts/Header";
 import Products from "./components/Products/Products";
+import CartProvider from "./context/CartProvider";
 
 function App() {
   const [cartIsShow, setcartIsShow] = useState(false)
@@ -10,13 +11,20 @@ function App() {
     setcartIsShow(true)
   
   }
+  const hideCartHandler = (e) => {
+    e.preventDefault()
+    setcartIsShow(false)
+  
+  }
   return (
-    <div className="App">
-      {cartIsShow && <Cart />}
+    <CartProvider>
+      {cartIsShow && <Cart onClose={hideCartHandler} />}
       <Header onShowCart={showCartHandler} />
       <Hero />
       <Products />
-    </div>
+    </CartProvider>
+      
+    
   );
 }
 
