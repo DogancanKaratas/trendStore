@@ -1,12 +1,15 @@
 import "./Cart.css";
 import CartItem from "./CartItem";
-import products from "../../productData";
 import Offcanvas from "../UI/Offcanvas";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartProvider";
 
 const Cart = (props) => {
+  const { items, totalAmount, clearItem } = useContext(CartContext);
+  const hasItems = items.length > 0;
   const cartItems = (
     <ul className="cartitems">
-      {products.map((product) => (
+      {items.map((product) => (
         <CartItem key={product.id} product={product} />
       ))}
     </ul>
@@ -21,13 +24,17 @@ const Cart = (props) => {
       </div>
       {cartItems}
       <div className="total">
-        <span>toplam değer</span>
-        <span>10 TL</span>
+        <span>Toplam değer</span>
+        <span>{totalAmount} TL</span>
       </div>
-      <div className="actions">
-        <button className="cart-order">sipariş ver</button>
-        <button className="cart-clear">temizle</button>
-      </div>
+      {hasItems && (
+        <div className="actions">
+          <button className="cart-order">sipariş ver</button>
+          <button className="cart-clear" onClick={clearItem}>
+            temizle
+          </button>
+        </div>
+      )}
     </Offcanvas>
   );
 };
